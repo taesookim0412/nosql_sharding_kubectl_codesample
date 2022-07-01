@@ -1,0 +1,7 @@
+/* Set `newId` to the new replica set name */
+var newId = 'shard1config1'
+var doc = db.getSiblingDB("local").system.replset.findOne()
+var oldId = doc._id
+doc._id = newId
+db.getSiblingDB("local").system.replset.save(doc)
+db.getSiblingDB("local").system.replset.remove({_id: oldId})
