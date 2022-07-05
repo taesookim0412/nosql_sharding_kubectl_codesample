@@ -1,13 +1,17 @@
+# https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
+
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: mongo
-  name: mongo-nodeport-svc
+    app: mongo
+  name: mongo
 spec:
+  type: NodePort
+  selector:
+    app: mongo
   ports:
   - port: 27017
     targetPort: 27017
-  clusterIP: None
-  selector:
-    name: mongodb-shard1-repl1
+    protocol: TCP
+    nodePort: 32000

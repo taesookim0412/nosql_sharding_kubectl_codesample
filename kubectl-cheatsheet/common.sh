@@ -22,3 +22,11 @@ db.users.insert({comment: "ok"})
 #find the local db directory
 
 find / -type d -name "disk1"
+
+# get cluster ips of pods
+
+kubectl get pod -o wide
+
+# get endpoints of svc
+
+kubectl describe endpoint

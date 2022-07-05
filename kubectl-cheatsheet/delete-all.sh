@@ -1,5 +1,6 @@
 kubectl delete deployments --all
-kubectl delete pods --all --force
+kubectl delete statefulsets --all
+kubectl delete pods --all --grace-period=0 --force
 kubectl delete pvc --all
 kubectl delete pv --all
 kubectl delete services --all
