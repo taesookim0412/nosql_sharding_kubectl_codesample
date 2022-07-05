@@ -1,4 +1,0 @@
-use local
-db.system.replset.remove({});
-
-sudo systemctl restart mongod

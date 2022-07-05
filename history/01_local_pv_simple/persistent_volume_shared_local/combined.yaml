@@ -1,0 +1,62 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-local-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /var/test
+  claimRef:
+    namespace: default
+    name: test-pvc
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: size
+          operator: In
+          values:
+          - large
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-storage
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-local-vol
+  labels:
+    name: test-local-vol
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ['sh', '-c', 'echo "The local volume is mounted!" > /mnt/test.txt && sleep 3600']
+    volumeMounts:
+      - name: local-persistent-storage
+        mountPath: /mnt
+  volumes:
+    - name: local-persistent-storage
+      persistentVolumeClaim:
+        claimName: test-pvc
