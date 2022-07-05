@@ -1,0 +1,5 @@
+sudo lsof -iTCP -sTCP:LISTEN -n -P
+
+sudo kill -9 <mongo_command_pid>
+
+mongod

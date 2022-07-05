@@ -1,0 +1,28 @@
+#
+kutectl get nodes
+kubectl label nodes docker-desktop size=large
+
+kubectl create -f pvc.yaml
+
+sudo mkdir /var/disk2/large
+sudo chmod 777 /var/disk2/large
+
+#"large" should make the value of the nodeAffinity
+
+# do not mess with the dbpath -- it is inside the virtualization.
+
+# how do we specify the location for the virtual path?
+
+
+
+#specify nodeAffinity size=large
+
+nodeAffinity:
+  required:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: size
+        operator: In
+        values:
+        - large
+
