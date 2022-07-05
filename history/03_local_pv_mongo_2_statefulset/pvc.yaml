@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 50Gi
   local:
-    path: /mnt/sdf
+    path: /run/desktop/mnt/host/c/mnt/sdf
   claimRef:
     namespace: default
     name: pv-data-1-pvc
